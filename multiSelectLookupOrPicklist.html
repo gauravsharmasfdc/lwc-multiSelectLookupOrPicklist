@@ -1,0 +1,101 @@
+<template>
+    <div data-id="container" class="slds-form-element container" onblur={onLeave} tabindex="-1">
+        <label if:false={hideLabel} class="slds-form-element__label" for="combobox-id-1"
+            id="combobox-label-id-26">{label}</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class={applicableClasses}>
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <template if:false={lookup}>
+                            <button type="button" class="slds-input_faux slds-combobox__input"
+                                aria-labelledby="combobox-label-id-26 combobox-id-1-selected-value"
+                                id="combobox-id-1-selected-value" aria-controls="listbox-id-1"
+                                aria-expanded={isAreaExpended} aria-haspopup="listbox" onclick={handleButtonClick}>
+                                <span class="slds-truncate" id="combobox-value-id-28">{placeholder}</span>
+                            </button>
+
+                            <span
+                                class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                <lightning-icon icon-name="utility:down" size="x-small"></lightning-icon>
+                            </span>
+                        </template>
+
+                        <template if:true={lookup}>
+                            <lightning-layout>
+                                <lightning-layout-item flexibility="auto">
+                                    <input type="text" value={searchTerm} onkeyup={handleInputChange}
+                                        class="slds-input slds-combobox__input slds-has-focus" id="combobox-id-11"
+                                        aria-autocomplete="list" aria-controls="listbox-id-1" role="textbox"
+                                        placeholder="Search..." aria-expanded={isAreaExpended} />
+                                </lightning-layout-item>
+                                <lightning-layout-item>
+                                    <lightning-button-icon onclick={handleButtonClick} icon-name="utility:search"
+                                        size="" class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                        aria-hidden="true">
+                                    </lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+
+                    </div>
+                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                        role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <template for:each={listItems} for:item="item">
+                                <li role="presentation" class="slds-listbox__item" key={item.id}>
+                                    <div data-id={item.id} data-value={item.value} onclick={handleItemSelection}
+                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option">
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <template if:true={item.selected}>
+                                                <span class="slds-icon_container slds-icon-utility-check">
+                                                    <lightning-icon icon-name="utility:check" size="x-small"
+                                                        variant="success">
+                                                    </lightning-icon>
+                                                </span>
+                                            </template>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" title={item.value}>{item.value}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                            <template if:true={isItemLoading}>
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div class="slds-align_absolute-center slds-p-top_medium">
+                                        <div role="status"
+                                            class="slds-spinner slds-spinner_x-small slds-spinner_inline">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                            <template if:true={noDataFound}>
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div id="option1"
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center"
+                                        role="option">
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <span class="slds-icon_container "></span>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">No
+                                                Data Found...</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <template if:true={selectedItemsForPill}>
+                <lightning-pill-container items={selectedItemsForPill} onitemremove={handleItemRemove}>
+                </lightning-pill-container>
+            </template>
+        </div>
+    </div>
+</template>
